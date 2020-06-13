@@ -11,6 +11,7 @@ const path         = require('path');
 
 const index = require('./routes/index.routes');
 const stocks = require('./routes/stocks.routes');
+const auth = require('./routes/auth.routes');
 
 const app_name = require('./package.json').name;
 const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
@@ -50,5 +51,6 @@ app.locals.title = 'Express - Generated with IronGenerator';
 
 app.use('/', index);
 app.use('/', stocks);
+app.use('/', auth);
 
 module.exports = app;

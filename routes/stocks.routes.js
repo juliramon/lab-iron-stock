@@ -1,9 +1,12 @@
 const express = require('express');
-const Stock = require('../models/stock');
+const Stock = require('../models/Stock.model');
+const User = require('../models/User.model');
 const router  = express.Router();
 
 router
   .get('/stocks', (req, res) => {
+    // const symbols = Stock.find();
+    // const user = User.findOne()
     Stock.find()
       .then(symbols => {
         console.log(`${symbols.length} symbols listed`)
