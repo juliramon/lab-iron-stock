@@ -20,7 +20,7 @@ const userSchema = new Schema({
         type: String,
         required: [true, 'Password is required'],
     },
-    stock: [{type: Schema.Types.ObjectId, ref: 'Symbol'}]
+    symbols: [{type: Schema.Types.ObjectId, ref: 'Symbol'}]
     },
     {
         timestamps: true

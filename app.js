@@ -27,6 +27,8 @@ mongoose
 
 const app = express();
 
+require('./configs/session.config')(app)
+
 // Middleware Setup
 app.use(logger('dev'));
 app.use(bodyParser.json());

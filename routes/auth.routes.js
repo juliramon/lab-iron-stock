@@ -8,7 +8,13 @@ const saltRounds = 10;
 const router  = express.Router();
 
 router
-  .get('/signup', (req, res) => res.render('auth/signup'))
+  .get('/signup', (req, res) => {
+    if(req.session.currentUser) {
+      res.redirect('/stocks');
+    } else {
+      res.render('auth/signup')
+    }
+  })
   .post('/signup', (req, res, next) => {
     const {username, email, password} = req.body;
     const hasEmptyRequiredField = !username || !email || !password;
@@ -42,7 +48,13 @@ router
         }
     })
   })
-  .get('/login', (req, res) => res.render('auth/login'))
+  .get('/login', (req, res) => {
+    if(req.session.currentUser) {
+      res.redirect('/stocks');
+    } else {
+      res.render('auth/login')
+    }
+  })
   .post('/login', (req, res) => {
     console.log('SESSION ===>', req.session);
     const {email, password} = req.body;
@@ -51,22 +63,22 @@ router
         return;
     }
     User.findOne({email})
-      .then(user => {
-          if(!user){
-              res.render('auth/login', {errorMessage: 'Email is not registered. Try another email'});
-              return;
-          } else if (bcryptjs.compareSync(password, user.passwordHash)) {
-              req.session.currentUser = user;
-              res.redirect('/stocks')
-          } else {
-              res.render('auth/login', {errorMessage: 'Incorrect password'});
-          }
-      })
-      .catch(error => next(error))
+        .then(user => {
+            if(!user){
+                res.render('auth/login', {errorMessage: 'Email is not registered. Try another email'});
+                return;
+            } else if (bcryptjs.compareSync(password, user.passwordHash)) {
+                req.session.currentUser = user; // save the user in the session
+                res.redirect('/stocks')
+            } else {
+                res.render('auth/login', {errorMessage: 'Incorrect password'});
+            }
+        })
+        .catch(error => next(error))
+  })
   .post('/logout', (req, res) => {
     req.session.destroy()
     res.redirect('/')
   })
-})
 
 module.exports = router;

@@ -10,10 +10,20 @@ router
     Stock.find()
       .then(symbols => {
         console.log(`${symbols.length} symbols listed`)
-        res.render('stockPanel', { symbols })
+        if (!req.session.currentUser) {
+          res.redirect('/');
+        } else {
+          res.render('stockPanel', { symbols })
+        }
       })
   })
-  .get('/add', (req, res) => res.render('addStock'))
+  .get('/add', (req, res) => {
+    if(!req.session.currentUser){
+      res.redirect('/');
+    }  else {
+      res.render('addStock')
+    }
+  })
   .post('/add', (req, res) => { 
     const { symbol } = req.body;
     Stock.create({symbol})
