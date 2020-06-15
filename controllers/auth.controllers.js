@@ -7,8 +7,10 @@ const saltRounds = 10;
 const loadSignupForm = (req, res) => {
   if(req.session.currentUser) {
     res.redirect('/stocks');
+    return;
   } else {
-    res.render('auth/signup')
+    res.render('auth/signup');
+    return;
   }
 }
 
@@ -34,10 +36,13 @@ const createNewUser = async (req, res, next) => {
   } catch(error) {
     if (error instanceof mongoose.Error.ValidationError) {
       res.status(400).render('auth/signup', { errorMessage: error.message });
+      return;
     } else if(error.code === 11000){
         res.status(400).render('auth/signup', { errorMessage: 'Username or email already in use' });
+        return;
     } else {
         next(error);
+        return;
     }
   }
 };
@@ -45,8 +50,10 @@ const createNewUser = async (req, res, next) => {
 const loadLoginForm = (req, res) => {
   if(req.session.currentUser) {
     res.redirect('/stocks');
+    return;
   } else {
-    res.render('auth/login')
+    res.render('auth/login');
+    return;
   }
 }
 

@@ -19,10 +19,8 @@ const userSchema = new Schema({
     passwordHash: {
         type: String,
         required: [true, 'Password is required'],
-    },
-    symbols: [{type: Schema.Types.ObjectId, ref: 'Symbol'}]
-    },
-    {
+    }
+    },{
         timestamps: true
     }
 );
